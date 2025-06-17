@@ -30,10 +30,12 @@ public class RecruiterService {
     }
 
     public Recruiter addJobToRecruiter(Long id, Long jobId) {
+        System.out.println("add job to recuritor => "+ id +" " + jobId);
         Recruiter recruiter = recruiterRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Recruiter not found"));
 
-        recruiter.getJobIdsString().add(String.valueOf(jobId));
+        recruiter.getJobIds().add(jobId);
+        System.out.println("Updated recuritor =>" + recruiter);
         return recruiterRepository.save(recruiter);
     }
 
@@ -41,7 +43,7 @@ public class RecruiterService {
         Recruiter recruiter = recruiterRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Recruiter not found"));
 
-        recruiter.getJobIdsString().remove(jobId);
+        recruiter.getJobIds().remove(jobId);
         return recruiterRepository.save(recruiter);
     }
 

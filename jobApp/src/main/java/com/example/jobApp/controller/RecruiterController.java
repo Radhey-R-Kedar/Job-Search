@@ -45,7 +45,7 @@ public class RecruiterController {
 
     @PostMapping("/{id}/appendjob")
     public ResponseEntity<?> appendJob(@PathVariable Long id, @RequestBody Long jobId) {
-        System.out.println("appendjob => id" + id + " jobid = "+ jobId);
+        System.out.println("appendjob => id " + id + " jobid = "+ jobId);
         try {
             Recruiter updatedRecruiter = recruiterService.addJobToRecruiter(id, jobId);
             return new ResponseEntity<>(updatedRecruiter, HttpStatus.OK);

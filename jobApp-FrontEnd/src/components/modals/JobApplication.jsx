@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 
 const JobApplication = ({ isOpen, onClose, job, applyForJob }) => {
   const userData = useSelector((state) => state.auth.userData);
+  console.log("job =>", job);
+  
 
   const [applicationForm, setApplicationForm] = useState({
     jobId: "",
@@ -18,6 +20,7 @@ const JobApplication = ({ isOpen, onClose, job, applyForJob }) => {
     resumeLink: "",
   });
 
+ 
   useEffect(() => {
     setApplicationForm({
       ...applicationForm,

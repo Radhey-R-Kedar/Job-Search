@@ -4,7 +4,7 @@ const Logo = ({ className = "", ...props }) => {
       className={`text-3xl 2xl:text-5xl font-black text-primary text-white hover:text-purple-400 ${className}`}
       {...props}
     >
-      JobQuest
+      JobApp
     </h2>
   );
 };

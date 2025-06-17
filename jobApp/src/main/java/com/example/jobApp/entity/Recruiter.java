@@ -3,6 +3,7 @@ package com.example.jobApp.entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,43 +21,12 @@ public class Recruiter {
     private String company;
     private String location;
 
+    private List<Long> jobIds = new ArrayList<>();
+
     @OneToMany(mappedBy = "recruiter", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Job> jobs;
 
     public Recruiter() {
-    }
-
-    public Recruiter(String name, String email, String password, String company, String location, List<Job> jobs) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.company = company;
-        this.location = location;
-        this.jobs = jobs;
-    }
-
-    @JsonProperty("id")
-    public String getIdString() {
-        return id != null ? id.toString() : null;
-    }
-
-    @JsonProperty("jobIds")
-    public List<String> getJobIdsString() {
-        if (jobs != null) {
-            return jobs.stream().map(job -> job.getId().toString()).collect(Collectors.toList());
-        } else {
-            return null;
-        }
-    }
-
-    public void addJob(Job job) {
-        this.jobs.add(job);
-        job.setRecruiter(this);
-    }
-
-    public void removeJob(Job job) {
-        this.jobs.remove(job);
-        job.setRecruiter(null);
     }
 
     public Long getId() {
@@ -107,11 +77,30 @@ public class Recruiter {
         this.location = location;
     }
 
+    public List<Long> getJobIds() {
+        return jobIds;
+    }
+
+    public void setJobIds(List<Long> jobIds) {
+        this.jobIds = jobIds;
+    }
+
     public List<Job> getJobs() {
         return jobs;
     }
 
     public void setJobs(List<Job> jobs) {
+        this.jobs = jobs;
+    }
+
+    public Recruiter(Long id, String name, String email, String password, String company, String location, List<Long> jobIds, List<Job> jobs) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.company = company;
+        this.location = location;
+        this.jobIds = jobIds;
         this.jobs = jobs;
     }
 
@@ -124,6 +113,7 @@ public class Recruiter {
                 ", password='" + password + '\'' +
                 ", company='" + company + '\'' +
                 ", location='" + location + '\'' +
+                ", jobIds=" + jobIds +
                 ", jobs=" + jobs +
                 '}';
     }

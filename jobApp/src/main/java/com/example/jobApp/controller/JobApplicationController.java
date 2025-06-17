@@ -1,6 +1,7 @@
 package com.example.jobApp.controller;
 
 import com.example.jobApp.entity.JobApplication;
+import com.example.jobApp.entity.JobApplicationRequestDTO;
 import com.example.jobApp.service.JobApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,13 +35,18 @@ public class JobApplicationController {
     }
 
     @PostMapping
-    public ResponseEntity<JobApplication> applyForJob(@RequestBody JobApplication jobApplication) {
-        System.out.println("application apply for job => " + jobApplication);
-        return new ResponseEntity<>(jobApplicationService.createJobApplication(jobApplication), HttpStatus.CREATED);
+    public ResponseEntity<JobApplication> applyForJob(@RequestBody JobApplicationRequestDTO request) {
+        System.out.println("apply for job =>" + request);
+        JobApplication jobApplication = jobApplicationService.createJobApplication(request);
+        return new ResponseEntity<>(jobApplication, HttpStatus.CREATED);
     }
 
+
     @PostMapping("/{applicationId}")
-    public ResponseEntity<?> updateJobApplicationStatus(@PathVariable Long applicationId, @RequestBody String newStatus) {
+    public ResponseEntity<?> updateJobApplicationStatus(@PathVariable Long applicationId, @RequestBody String newStatusRaw) {
+        String newStatus = newStatusRaw.replace("\"", ""); // remove quotes
+        System.out.println("updateJobApplicationStatus => " + applicationId + " " + newStatus);
+
         if (VALID_STATUS_OPTIONS.contains(newStatus)) {
             return new ResponseEntity<>(jobApplicationService.updateStatus(applicationId, newStatus), HttpStatus.OK);
         } else {
